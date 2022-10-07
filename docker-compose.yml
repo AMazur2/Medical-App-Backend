@@ -1,0 +1,29 @@
+version: "2.4"
+
+services:
+  app:
+    image: 'medical-app-backend:latest'
+    build:
+      context: .
+    container_name: app
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_started
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/db
+      - SPRING_DATASOURCE_USERNAME=compose-postgres
+      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: postgres_db
+    restart: always
+    ports:
+      - '5438:5432'
+    environment:
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres
+      - POSTGRES_DB=newspapers_db
