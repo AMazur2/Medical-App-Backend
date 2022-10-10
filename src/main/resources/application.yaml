@@ -1,0 +1,4 @@
+security:
+  dev:
+    userName: "dev1"
+    password: "dev1"
